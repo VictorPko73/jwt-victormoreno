@@ -10,6 +10,9 @@ from api.models import db
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
+from flask_jwt_extended import JWTManager
+from api.models import db
+from datetime import timedelta
 
 # from models import Person
 
@@ -18,6 +21,10 @@ static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../dist/')
 app = Flask(__name__)
 app.url_map.strict_slashes = False
+
+app.config["JWT_SECRET_KEY"] = "1234_Victor"  # cámbiala por algo seguro
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)  # 1 hora
+jwt = JWTManager(app)
 
 # database condiguration
 db_url = os.getenv("DATABASE_URL")
