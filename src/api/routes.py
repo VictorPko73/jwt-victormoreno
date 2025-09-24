@@ -9,7 +9,7 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 import bcrypt
 
 
-api = Blueprint('api', __name__, url_prefix ='api/')
+api = Blueprint('api', __name__)
 
 # Allow CORS requests to this API
 CORS(api)
@@ -52,7 +52,8 @@ def login():
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
-
+    if not email or not password:
+        return jsonify({"message": "Email y contraseña son obligatorios."}), 400
     user = User.query.filter_by(email=email).first()
     if not user:
         return jsonify({"message": "Credenciales invalidas"}), 401
@@ -64,3 +65,13 @@ def login():
     token = create_access_token(identity=user.id)
     return jsonify({"token": token, "user": user.serialize()}), 200    
 
+
+# EndPoint protegido para validar el usuario validado
+@api.route('/me', methods=['GET'])
+@jwt_required()
+def get_current_user():
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+    if not user or not user.is_active:
+        return jsonify({"message": "Usuario no encontrado o inactivo"}), 404
+    return jsonify(user.serialize()), 200
