@@ -26,7 +26,7 @@ def handle_hello():
 
 # Register new users
 
-@api.route('/registers', methods=['POST'])
+@api.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
     email = data.get('email')
@@ -35,7 +35,7 @@ def register():
     if User.query.filter_by(email=email).first():
         return jsonify({"message": "El usuario ya existe"}), 400
 
-    # Hashear la password con bcrypt
+    # Hashear la password con bcrypt MUY IMPORTANTE PARA QUE LAS CONTRASEÑAS SEAN MAS SEGURAS (SALT)
     salt = bcrypt.gensalt()
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
 
@@ -67,7 +67,7 @@ def login():
 
 
 # EndPoint protegido para validar el usuario validado
-@api.route('/me', methods=['GET'])
+@api.route('/profile', methods=['GET'])
 @jwt_required()
 def get_current_user():
     user_id = get_jwt_identity()
