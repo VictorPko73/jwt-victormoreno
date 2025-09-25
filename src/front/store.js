@@ -1,6 +1,26 @@
 // Clave que usaremos para guardar la sesión en sessionStorage
 const SESSION_KEY = "session";
 
+//Para hacerlo con localStorage
+
+/* const loadSession = () => {
+  try {
+    const raw = localStorage.getItem(SESSION_KEY);
+    // ...
+  } catch {
+    localStorage.removeItem(SESSION_KEY);
+    return { token: null, user: null };
+  }
+};
+
+const saveSession = (session) => {
+  localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+};
+
+const clearSession = () => {
+  localStorage.removeItem(SESSION_KEY);
+}; */
+
 // Lee la sesión almacenada en sessionStorage y la devuelve como objeto
 const loadSession = () => {
   try {
