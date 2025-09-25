@@ -67,7 +67,7 @@ def login():
 
 
 # EndPoint protegido para validar el usuario validado
-@api.route('/profile', methods=['GET'])
+@api.route('/private', methods=['GET'])
 @jwt_required()
 def get_current_user():
     user_id = get_jwt_identity()
