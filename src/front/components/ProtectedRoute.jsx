@@ -22,7 +22,7 @@ const ProtectedRoute = () => {
       dispatch({ type: "auth_checking" });
 
       try {
-        const response = await fetch(`${backendUrl}/api/profile`, {
+        const response = await fetch(`${backendUrl}/api/private`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${auth.token}`,
